@@ -83,34 +83,42 @@ def main():
         width = len(lines[0])
         height = len(lines)
 
-        # from-left, -right, -top, -bottom
-        # from_dir x height x width
-        # data = [[[False] * width for i in range(height)] for j in range(4)]
-        #
-        # data[0][0][0] = True
-        final_data = [[False] * width for i in range(height)]
+        l_max = -1
+        for i in range(110):
+            print(i, l_max)
+            res_0 = second_part((0, i, 0), width, height, lines)
+            res_1 = second_part((1, i, 109), width, height, lines)
+            res_2 = second_part((2, 0, i), width, height, lines)
+            res_3 = second_part((3, 109, i), width, height, lines)
 
-        unhandled = [(0, 0, 0)]
-        start = 0
-        end = 1
+            l2_max = max(res_0, res_1, res_2, res_3)
+            if l2_max > l_max:
+                l_max = l2_max
+        print(l_max)
 
-        f = 0
-        while end - start > 0:
-            f += 1
-            print(f, start, end)
-            subject = unhandled[start]
-            new_subjects = apply_beam(subject, lines[subject[1]][subject[2]])
-            new_subjects = [x for x in new_subjects if x not in unhandled]
-            unhandled.extend(new_subjects)
-            end += len(new_subjects)
-            start += 1
 
-        for subject in unhandled:
-            final_data[subject[1]][subject[2]] = True
+def second_part(first_subject: tuple[int, int, int], width, height, lines) -> int:
+    final_data = [[False] * width for i in range(height)]
 
-        sum_a = sum([sum(x) for x in final_data])
+    unhandled = [first_subject]
+    start = 0
+    end = 1
 
-        print(sum_a)
+    f = 0
+    while end - start > 0:
+        f += 1
+        # print(f, start, end)
+        subject = unhandled[start]
+        new_subjects = apply_beam(subject, lines[subject[1]][subject[2]])
+        new_subjects = [x for x in new_subjects if x not in unhandled]
+        unhandled.extend(new_subjects)
+        end += len(new_subjects)
+        start += 1
+
+    for subject in unhandled:
+        final_data[subject[1]][subject[2]] = True
+
+    return sum([sum(x) for x in final_data])
 
 
 if __name__ == "__main__":
