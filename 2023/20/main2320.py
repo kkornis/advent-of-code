@@ -67,14 +67,12 @@ class Conjunction(Module):
 
 
 def gcd(a, b):
-    if a == b:
-        return a
     if a < b:
         return gcd(b, a)
     if b == 0:
         return a
     else:
-        return gcd(a - int(a / b) * b, b)
+        return gcd(b, a - int(a / b) * b)
 
 
 def main():
@@ -95,6 +93,8 @@ def main():
         n_highs_sum = 0
         j = 0
         while len(roots_res) < 4:
+            if j == 1000:
+                print('part a: ', n_lows_sum * n_highs_sum)
             signs = [['button', 'broadcaster', False]]
             loc_iter = 0
             while len(signs) > loc_iter:
@@ -111,12 +111,11 @@ def main():
                 loc_iter += 1
             j += 1
 
-        print(n_lows_sum * n_highs_sum)
         res_b = 1
         for val in roots_res.values():
             my_gcd = gcd(res_b, val)
             res_b *= int(val / my_gcd)
-        print(res_b)
+        print('part b: ', res_b)
 
 
 if __name__ == "__main__":
