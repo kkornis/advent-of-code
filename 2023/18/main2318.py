@@ -20,8 +20,7 @@ def process_color(color):
     return direction, conv_dec(amount_hex)
 
 
-def main():
-    part_b = True
+def main(part_b: bool):
     with open('input.txt') as inputtxt:
 
         lines = inputtxt.readlines()
@@ -54,8 +53,9 @@ def main():
             else:
                 raise ValueError
             sum_amm += amount
-        print(sum_b + int(sum_amm / 2) + 1)
+        print('part ' + ('b' if part_b else 'a') + ': ', sum_b + int(sum_amm / 2) + 1)
 
 
 if __name__ == "__main__":
-    main()
+    main(False)
+    main(True)
