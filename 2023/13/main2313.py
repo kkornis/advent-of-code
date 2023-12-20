@@ -14,11 +14,7 @@ def main():
             while end < len(lines) and lines[end] != '\n':
                 end += 1
 
-            print(n_boxes)
-            print(start)
-            print(end)
             n_boxes += 1
-            ###############################
 
             width = len(lines[start]) - 1
 
@@ -48,8 +44,6 @@ def main():
                     sum_a += k
                 if smudges == 1:
                     sum_b += k
-
-            ###############################
 
             start = end + 1
             end = start
