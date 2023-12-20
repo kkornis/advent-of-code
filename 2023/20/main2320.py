@@ -78,14 +78,6 @@ class Conjunction(Module):
         return all([(not x) for x in self.connected_inputs.values()])
 
 
-def iterate(signs, modules):
-    result = []
-    for from_name, to, pulse in signs:
-        if to in modules:
-            result.extend(modules[to].receive(pulse, from_name))
-    return result
-
-
 def main():
     with open('input.txt') as inputtxt:
         lines = inputtxt.readlines()
@@ -102,13 +94,16 @@ def main():
         n_highs_sum = 0
         for j in range(1000):
             signs = [['button', 'broadcaster', False]]
-            while len(signs) > 0:
-                for sign in signs:
-                    if sign[2]:
-                        n_highs_sum += 1
-                    else:
-                        n_lows_sum += 1
-                signs = iterate(signs, modules)
+            loc_iter = 0
+            while len(signs) > loc_iter:
+                from_name, to, pulse = signs[loc_iter]
+                if pulse:
+                    n_highs_sum += 1
+                else:
+                    n_lows_sum += 1
+                if to in modules:
+                    signs.extend(modules[to].receive(pulse, from_name))
+                loc_iter += 1
 
         print(n_lows_sum)
         print(n_highs_sum)
