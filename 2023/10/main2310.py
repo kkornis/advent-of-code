@@ -3,9 +3,7 @@ def main():
     with open('input.txt') as inputtxt:
 
         lines = inputtxt.readlines()
-        sum_a = 0
         sum_b = 0
-        print(lines[20].find('S'))
 
         prev_x = 20
         prev_y = 103
@@ -83,14 +81,10 @@ def main():
                     if crossings % 2 == 1:
                         sum_b += 1
 
-
-
         sum_a = steps / 2
-        print(sum_a)
-        print(sum_b)
+        print('part a: ', int(sum_a))
+        print('part b: ', sum_b)
 
 
 if __name__ == "__main__":
     main()
-
-
