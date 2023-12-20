@@ -75,31 +75,15 @@ def main():
                 pass
 
         states = [('in', (1, 4001, 1, 4001, 1, 4001, 1, 4001))]
-        iterations = 0
         while not all([(x[0] == 'A' or x[0] == 'R') for x in states]):
-            iterations += 1
             states = step(states, workflows)
-        print(iterations)
 
         sum_b = 0
-        a = 0
-        b = 0
-        mill = 1000000
-
         for state in states:
             if state[0] == 'A':
                 box = state[1]
-                first_x = int((box[1] - box[0]) * (box[3] - box[2]) * (box[5] - box[4]) / mill)
-                secon_x = (box[1] - box[0]) * (box[3] - box[2]) * (box[5] - box[4]) % mill
-                first_y = int((box[7] - box[6]) * (sum(box) - 4) / mill)
-                secon_y = (box[7] - box[6]) * (sum(box) - 4) % mill
-
-                a += first_x * first_y * mill + first_x * secon_y + first_y * secon_x
-                b += secon_x * secon_y
-
                 sum_b += (box[1] - box[0]) * (box[3] - box[2]) * (box[5] - box[4]) * (box[7] - box[6])
 
-        print(int(a / 2), int(b / 2))
         print(sum_b)
 
 
