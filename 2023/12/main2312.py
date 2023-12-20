@@ -1,6 +1,5 @@
 
-def main():
-    unfold = True
+def main(part_b):
     with open('input.txt') as inputtxt:
 
         lines = inputtxt.readlines()
@@ -9,7 +8,7 @@ def main():
         for l_num, line in enumerate(lines):
             code, numbers_part = line[:-1].split()
             numbers = [int(x) for x in numbers_part.split(',')]
-            if unfold:
+            if part_b:
                 code = '?'.join([code] * 5)
                 numbers = numbers * 5
 
@@ -42,8 +41,9 @@ def main():
                     solution_table[i].append(local_res)
 
             sum_a += solution_table[len(numbers)][len(code)]
-        print(sum_a)
+        return sum_a
 
 
 if __name__ == "__main__":
-    main()
+    print('part a: ', main(False))
+    print('part b: ', main(True))
