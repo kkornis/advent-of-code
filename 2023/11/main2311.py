@@ -1,10 +1,9 @@
 
-def main():
+def main(extra_space):
     with open('input.txt') as inputtxt:
 
         lines = inputtxt.readlines()
         sum_a = 0
-        sum_b = 0
         sum_hasht = 0
 
         for l_num, line in enumerate(lines):
@@ -32,18 +31,18 @@ def main():
             row_addition = sum([x < hashtag[0] for x in l_empty_rows])
             col_addition = sum([x < hashtag[1] for x in l_empty_cols])
 
-            l_mod.append((hashtag[0] + row_addition * 999999, hashtag[1] + col_addition * 999999))
+            l_mod.append((hashtag[0] + row_addition * extra_space, hashtag[1] + col_addition * extra_space))
 
         for first in l_mod:
             for second in l_mod:
                 sum_a += abs(first[0] - second[0]) + abs(first[1] - second[1])
 
         sum_a = sum_a / 2
-        print(sum_hasht)
-        print(sum_a)
+        return int(sum_a)
 
 
 if __name__ == "__main__":
-    main()
+    print('part a: ', main(1))
+    print('part b: ', main(999999))
 
 
