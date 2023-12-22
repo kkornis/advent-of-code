@@ -30,6 +30,18 @@ class Brick:
         return self.is_above_each_other(other)
 
 
+def get_n_blocks_would_fall(bricks, j):
+    stack = {j}
+    go = True
+    while go:
+        go = False
+        for k, brick in enumerate(bricks):
+            if k not in stack and len(brick.lands_on) > 0 and all([x in stack for x in brick.lands_on]):
+                stack.add(k)
+                go = True
+    return len(stack) - 1
+
+
 def main():
     with open('input.txt') as inputtxt:
         lines = inputtxt.readlines()
@@ -75,7 +87,14 @@ def main():
             if len(brick.lands_on) == 1:
                 stg_landed_on.add(brick.lands_on[0])
 
+        sum_b = 0
+        for j, brick in enumerate(bricks):
+            addition = get_n_blocks_would_fall(bricks, j)
+            print(j, addition, brick.lands_on)
+            sum_b += addition
+
         print('part a: ', 1222 - len(stg_landed_on))
+        print('part b: ', sum_b)
 
 
 if __name__ == "__main__":
