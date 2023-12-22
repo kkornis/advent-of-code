@@ -18,6 +18,7 @@ class Brick:
         self.y_end = int(y_end) + 1
         self.z_end = int(z_end) + 1
         self.fallen = False
+        self.lands_on = []
 
     def is_above_each_other(self, other):
         return (is_intersection(self.x_start, self.x_end, other.x_start, other.x_end) and
@@ -39,25 +40,42 @@ def main():
             bricks.append(Brick(line))
 
         num_fallen = 0
-        while any([not brick.fallen for brick in bricks]) > 0:
+        while any([not brick.fallen for brick in bricks]):
             print(num_fallen)
             i = 0
             go = True
             while go:
                 if not bricks[i].fallen:
-                    if all([(brick.fallen or (not brick.is_bellow(bricks[i])) or (brick is bricks[i])) for brick in bricks]):
-                        go = False
+                    lands_on = []
+                    go = False
+                    new_z = 0
+                    for j, brick in enumerate(bricks):
+                        if brick is not bricks[i]:
+                            if brick.is_bellow(bricks[i]):
+                                if brick.fallen:
+                                    if brick.z_end > new_z:
+                                        new_z = brick.z_end
+                                        lands_on = [j]
+                                    elif brick.z_end == new_z:
+                                        lands_on.append(j)
+                                else:
+                                    go = True
+                                    break
+
                 if go:
                     i += 1
-            new_z = min([fallen.z_end for fallen in bricks if fallen.is_bellow(bricks[i]) and fallen.fallen], default=0)
             bricks[i].z_end = bricks[i].z_end - bricks[i].z_start + new_z
             bricks[i].z_start = new_z
             bricks[i].fallen = True
+            bricks[i].lands_on = lands_on
             num_fallen += 1
 
-        sum_a = 0
+        stg_landed_on = set()
+        for brick in bricks:
+            if len(brick.lands_on) == 1:
+                stg_landed_on.add(brick.lands_on[0])
 
-        print('part a: ', sum_a)
+        print('part a: ', 1222 - len(stg_landed_on))
 
 
 if __name__ == "__main__":
