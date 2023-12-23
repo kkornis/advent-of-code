@@ -53,7 +53,8 @@ def main():
 
         num_fallen = 0
         while any([not brick.fallen for brick in bricks]):
-            print(num_fallen)
+            if num_fallen % 100 == 0:
+                print(num_fallen, '/ 1222')
             i = 0
             go = True
             while go:
@@ -90,7 +91,6 @@ def main():
         sum_b = 0
         for j, brick in enumerate(bricks):
             addition = get_n_blocks_would_fall(bricks, j)
-            print(j, addition, brick.lands_on)
             sum_b += addition
 
         print('part a: ', 1222 - len(stg_landed_on))
