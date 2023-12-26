@@ -1,3 +1,45 @@
+import pandas as pd
+import numpy as np
+
+
+def add_two_rows(df: pd.DataFrame, line1: tuple, line2: tuple) -> None:
+    pos1, vel1 = line1
+    pos2, vel2 = line2
+    x1, y1, z1 = pos1
+    vx1, vy1, vz1 = vel1
+    x2, y2, z2 = pos2
+    vx2, vy2, vz2 = vel2
+    df.loc[len(df.index)] = [vy1 - vy2, vx2 - vx1, 0, y2 - y1, x1 - x2, 0, x2 * vy2 - x1 * vy1 - y2 * vx2 + y1 * vx1]
+    df.loc[len(df.index)] = [vz1 - vz2, 0, vx2 - vx1, z2 - z1, 0, x1 - x2, x2 * vz2 - x1 * vz1 - z2 * vx2 + z1 * vx1]
+
+
+def check_eq(data, result):
+    pos1, vel1 = data
+    x1, y1, z1 = pos1
+    vx1, vy1, vz1 = vel1
+    const = 'const'
+
+    print((x1 - result[const][0]) * (vy1 - result[const][4]), (y1 - result[const][1]) * (vx1 - result[const][3]))
+    print(result[const][0], result[const][1], result[const][2])
+
+
+def solve_part_b(data, a, b, c):
+    variable_names = ['x', 'y', 'z', 'vx', 'vy', 'vz']
+    const = 'const'
+    df = pd.DataFrame({nam: [] for nam in (variable_names + [const])})
+    add_two_rows(df, data[0], data[a])
+    add_two_rows(df, data[0], data[b])
+    add_two_rows(df, data[0], data[c])
+
+    m = df[variable_names]
+    m_inv = pd.DataFrame(np.linalg.inv(m.values))
+    result = - m_inv.dot(df[[const]])
+
+    # check_eq(data[a], result)
+
+    return result[const][0] + result[const][1] + result[const][2]
+
+
 def collide_in(line1, line2):
     pos1, vel1 = line1
     pos2, vel2 = line2
@@ -55,15 +97,22 @@ def main():
             data.append(([int(x) for x in a.split(', ')], [int(x) for x in b.split(', ')]))
 
         sum_a = 0
-        sum_b = 0
         for line1 in data:
             for line2 in data:
                 if line1 != line2:
                     if collide_in(line1, line2):
                         sum_a += 1
 
+        part_b = solve_part_b(data, 1, 2, 3)
+        print(solve_part_b(data, 1, 2, 3))
+        print(solve_part_b(data, 4, 5, 6))
+        print(solve_part_b(data, 7, 8, 9))
+        print(solve_part_b(data, 10, 11, 12))
+        print(solve_part_b(data, 13, 14, 15))
+        print(solve_part_b(data, 16, 17, 18))
+
         print('part a: ', int(sum_a / 2))
-        print('part b: ', sum_b)
+        print('part b: ', part_b)
 
 
 if __name__ == "__main__":
