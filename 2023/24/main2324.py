@@ -30,11 +30,14 @@ def collide_in(line1, line2):
     else:
         t2 = (a1 - a2) / detv
         t1 = (b1 - b2) / detv
+        tx2 = a1 - a2
+        tx1 = b1 - b2
+        assert -0.1 < detv * pos1[0] + tx1 * vel1[0] - (detv * pos2[0] + tx2 * vel2[0]) < 0.1
+        assert -0.1 < detv * pos1[1] + tx1 * vel1[1] - (detv * pos2[1] + tx2 * vel2[1]) < 0.1
+
         if t1 <= 0 or t2 <= 0:
             return False
         else:
-            # assert -10 < pos1[0] + t1 * vel1[0] - (pos2[0] + t2 * vel2[0]) < 10
-            # assert -10 < pos1[1] + t1 * vel1[1] - (pos2[1] + t2 * vel2[1]) < 10
             if 200000000000000 <= pos2[0] + t2 * vel2[0] <= 400000000000000 and \
                     200000000000000 <= pos2[1] + t2 * vel2[1] <= 400000000000000:
                 return True
