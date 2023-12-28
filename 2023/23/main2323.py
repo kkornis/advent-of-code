@@ -12,9 +12,9 @@ class Graph:
             new_vertexes = {(self.height - 1, self.width - 2)}
             self.vertexes = {(self.height - 1, self.width - 2)}
 
-            while (0, 1) not in lengths:
-                assert len(new_vertexes) > 0
+            while len(new_vertexes) > 0:
                 new_vertexes = self.iterate(new_vertexes, lengths)
+            assert (0, 1) in self.vertexes
 
             print('part a: ', lengths[(0, 1)])
 
