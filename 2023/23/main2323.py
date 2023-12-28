@@ -25,6 +25,23 @@ class Graph:
             new_vertexes = new_vertexes | self.iterate_one_step(old_vertex, lengths)
         return new_vertexes
 
+    def iterate_one_step(self, old_step: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
+        new_steps = set()
+        x, y = old_step
+        if self.analyze_state((x - 1, y), lengths, old_step):
+            new_steps.add((x - 1, y))
+            lengths[(x - 1, y)] = lengths[(x, y)] + 1
+        if self.analyze_state((x + 1, y), lengths, old_step):
+            new_steps.add((x + 1, y))
+            lengths[(x + 1, y)] = lengths[(x, y)] + 1
+        if self.analyze_state((x, y - 1), lengths, old_step):
+            new_steps.add((x, y - 1))
+            lengths[(x, y - 1)] = lengths[(x, y)] + 1
+        if self.analyze_state((x, y + 1), lengths, old_step):
+            new_steps.add((x, y + 1))
+            lengths[(x, y + 1)] = lengths[(x, y)] + 1
+        return new_steps
+
     def reached_from_direction_and_shorter(self, param: tuple[int, int], direction: str, lengths, old_step_length):
         x, y = param
         if x < 0 or x >= self.height or y < 0 or y >= self.width:
@@ -69,22 +86,6 @@ class Graph:
             return True
         return False
 
-    def iterate_one_step(self, old_step: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
-        new_steps = set()
-        x, y = old_step
-        if self.analyze_state((x - 1, y), lengths, old_step):
-            new_steps.add((x - 1, y))
-            lengths[(x - 1, y)] = lengths[(x, y)] + 1
-        if self.analyze_state((x + 1, y), lengths, old_step):
-            new_steps.add((x + 1, y))
-            lengths[(x + 1, y)] = lengths[(x, y)] + 1
-        if self.analyze_state((x, y - 1), lengths, old_step):
-            new_steps.add((x, y - 1))
-            lengths[(x, y - 1)] = lengths[(x, y)] + 1
-        if self.analyze_state((x, y + 1), lengths, old_step):
-            new_steps.add((x, y + 1))
-            lengths[(x, y + 1)] = lengths[(x, y)] + 1
-        return new_steps
 
 
 def main():
