@@ -14,16 +14,15 @@ class Graph:
 
             while len(new_vertexes) > 0:
                 new_vertexes = self.iterate(new_vertexes, lengths)
-            assert (0, 1) in self.vertexes
+            assert (0, 1) in lengths
 
-            print('part a: ', lengths[(0, 1)])
-
+        print('part a: ', lengths[(0, 1)])
 
     def iterate(self, old_vertices: set[tuple[int, int]], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
-        new_vertexes = set()
+        new_vertices = set()
         for old_vertex in old_vertices:
-            new_vertexes = new_vertexes | self.iterate_one_step(old_vertex, lengths)
-        return new_vertexes
+            new_vertices = new_vertices | self.iterate_one_step(old_vertex, lengths)
+        return new_vertices
 
     def iterate_one_step(self, old_step: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
         new_steps = set()
