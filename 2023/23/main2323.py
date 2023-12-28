@@ -9,20 +9,21 @@ class Graph:
             self.width = len(self.lines[0])
 
             lengths = {(self.height - 1, self.width - 2): 0}
-            new_steps = {(self.height - 1, self.width - 2)}
+            new_vertexes = {(self.height - 1, self.width - 2)}
             self.vertexes = {(self.height - 1, self.width - 2)}
 
             while (0, 1) not in lengths:
-                assert len(new_steps) > 0
-                new_steps = self.iterate(new_steps, lengths)
+                assert len(new_vertexes) > 0
+                new_vertexes = self.iterate(new_vertexes, lengths)
 
             print('part a: ', lengths[(0, 1)])
 
-    def iterate(self, old_steps: set[tuple[int, int]], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
-        new_steps = set()
-        for old_step in old_steps:
-            new_steps = new_steps | self.iterate_one_step(old_step, lengths)
-        return new_steps
+
+    def iterate(self, old_vertices: set[tuple[int, int]], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
+        new_vertexes = set()
+        for old_vertex in old_vertices:
+            new_vertexes = new_vertexes | self.iterate_one_step(old_vertex, lengths)
+        return new_vertexes
 
     def reached_from_direction_and_shorter(self, param: tuple[int, int], direction: str, lengths, old_step_length):
         x, y = param
