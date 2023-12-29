@@ -24,22 +24,18 @@ class Graph:
             new_vertices = new_vertices | self.iterate_one_step(old_vertex, lengths)
         return new_vertices
 
-    def iterate_one_step(self, old_step: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
-        new_steps = set()
-        x, y = old_step
-        if self.analyze_state((x - 1, y), lengths, old_step):
-            new_steps.add((x - 1, y))
-            lengths[(x - 1, y)] = lengths[(x, y)] + 1
-        if self.analyze_state((x + 1, y), lengths, old_step):
-            new_steps.add((x + 1, y))
-            lengths[(x + 1, y)] = lengths[(x, y)] + 1
-        if self.analyze_state((x, y - 1), lengths, old_step):
-            new_steps.add((x, y - 1))
-            lengths[(x, y - 1)] = lengths[(x, y)] + 1
-        if self.analyze_state((x, y + 1), lengths, old_step):
-            new_steps.add((x, y + 1))
-            lengths[(x, y + 1)] = lengths[(x, y)] + 1
-        return new_steps
+    def iterate_one_step(self, old_vertex: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
+        new_vertices = set()
+        for neighbour in self.get_neighbours(old_vertex):
+            if self.analyze_state(neighbour, lengths, old_vertex):
+                new_vertices.add(neighbour)
+                lengths[neighbour] = lengths[old_vertex] + 1
+        return new_vertices
+
+    @staticmethod
+    def get_neighbours(position: tuple[int, int]) -> list[tuple[int, int]]:
+        x, y = position
+        return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
 
     def reached_from_direction_and_shorter(self, param: tuple[int, int], direction: str, lengths, old_step_length):
         x, y = param
