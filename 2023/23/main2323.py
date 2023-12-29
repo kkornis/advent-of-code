@@ -27,7 +27,7 @@ class Graph:
     def iterate_one_step(self, old_vertex: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
         new_vertices = set()
         for neighbour in self.get_neighbours(old_vertex):
-            if self.analyze_state(neighbour, lengths, old_vertex):
+            if self.isvalid(neighbour) and self.analyze_state(neighbour, lengths, old_vertex):
                 new_vertices.add(neighbour)
                 lengths[neighbour] = lengths[old_vertex] + 1
         return new_vertices
@@ -36,6 +36,10 @@ class Graph:
     def get_neighbours(position: tuple[int, int]) -> list[tuple[int, int]]:
         x, y = position
         return [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+
+    def isvalid(self, position: tuple[int, int]) -> bool:
+        x, y = position
+        return 0 <= x < self.height and 0 <= y < self.width
 
     def reached_from_direction_and_shorter(self, param: tuple[int, int], direction: str, lengths, old_step_length):
         x, y = param
@@ -63,8 +67,6 @@ class Graph:
     def analyze_state(self, param: tuple[int, int], lengths: dict[tuple[int, int], int], old_step: tuple[int, int])\
             -> bool:
         x, y = param
-        if x < 0 or x >= self.height or y < 0 or y >= self.width:
-            return False
         if self.lines[x][y] == '#':
             return False
         if (x, y) in lengths:
