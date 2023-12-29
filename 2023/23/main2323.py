@@ -18,7 +18,7 @@ class Graph:
             assert (0, 1) in lengths
             assert (0, 1) in self.vertexes
 
-        print('part a: ', lengths[(0, 1)])
+        print('part a:', lengths[(0, 1)])
 
     def iterate(self, old_vertices: set[tuple[int, int]], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
         new_vertices = set()
@@ -64,15 +64,9 @@ class Graph:
 
     def reached_from_all_directions_and_argmax(self, param: tuple[int, int], lengths: dict[tuple[int, int], int],
                                                old_step_length: int) -> bool:
-        x, y = param
-        if not self.reached_from_direction_and_shorter((x - 1, y), '^', lengths, old_step_length):
-            return False
-        if not self.reached_from_direction_and_shorter((x + 1, y), 'v', lengths, old_step_length):
-            return False
-        if not self.reached_from_direction_and_shorter((x, y - 1), '<', lengths, old_step_length):
-            return False
-        if not self.reached_from_direction_and_shorter((x, y + 1), '>', lengths, old_step_length):
-            return False
+        for position, char in zip(self.get_neighbours(param), ['^', 'v', '<', '>']):
+            if not self.reached_from_direction_and_shorter(position, char, lengths, old_step_length):
+                return False
         return True
 
     def analyze_state(self, param: tuple[int, int], lengths: dict[tuple[int, int], int], old_step: tuple[int, int])\
