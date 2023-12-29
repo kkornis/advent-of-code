@@ -16,6 +16,7 @@ class Graph:
             while len(new_vertexes) > 0:
                 new_vertexes = self.iterate(new_vertexes, lengths)
             assert (0, 1) in lengths
+            assert (0, 1) in self.vertexes
 
         print('part a: ', lengths[(0, 1)])
 
@@ -25,15 +26,16 @@ class Graph:
             new_vertices = new_vertices | self.iterate_one_step(old_vertex, lengths)
         return new_vertices
 
-    def iterate_one_step(self, old_vertex: tuple[int, int], lengths: dict[tuple[int, int], int]) -> set[tuple[int, int]]:
+    def iterate_one_step(self, old_vertex: tuple[int, int], lengths: dict[tuple[int, int], int])\
+            -> set[tuple[int, int]]:
         new_vertices = set()
         for neighbour in self.get_neighbours(old_vertex):
             if self.isvalid(neighbour) and not self.lines[neighbour[0]][neighbour[1]] == '#':
-                if self.analyze_state(neighbour, lengths, old_vertex):
-                    new_vertices.add(neighbour)
-                    lengths[neighbour] = lengths[old_vertex] + 1
                 if neighbour not in self.vertexes:
-                    self.set_up_new_vertex(neighbour)
+                    if self.analyze_state(neighbour, lengths, old_vertex):
+                        new_vertices.add(neighbour)
+                        lengths[neighbour] = lengths[old_vertex] + 1
+                        self.set_up_new_vertex(neighbour)
                 else:
                     if old_vertex not in self.vertexes[neighbour]:
                         self.vertexes[neighbour][old_vertex] = 1
@@ -76,8 +78,6 @@ class Graph:
     def analyze_state(self, param: tuple[int, int], lengths: dict[tuple[int, int], int], old_step: tuple[int, int])\
             -> bool:
         x, y = param
-        if (x, y) in lengths:
-            return False
         if self.lines[x][y] != '.':
             return True
 
