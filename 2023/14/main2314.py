@@ -6,7 +6,6 @@ def main_a():
 
         lines = inputtxt.readlines()
         sum_a = 0
-        sum_b = 0
 
         width = len(lines[0]) - 1
         height = len(lines)
@@ -21,10 +20,9 @@ def main_a():
                 elif ch == 'O':
                     num_rocks += 1
             loc_sum += num_rocks * (2 * height - num_rocks + 1) / 2
-            sum_a += loc_sum
+            sum_a += int(loc_sum)
 
-        print(sum_a)
-        print(sum_b)
+        return sum_a
 
 
 def roll_north(lines_o: list[list[str]], width: int, height: int) -> tuple[list[list[str]], int]:
@@ -178,13 +176,18 @@ def main():
         width = len(lines[0])
         height = len(lines)
 
-        for i in range(1, 1000):
+        for i in range(1, 161):
             lines, load = roll_north(lines, width, height)
             lines = roll_west(lines, width, height)
             lines = roll_south(lines, width, height)
             lines, load = roll_east(lines, width, height)
-            print(i, load)
+            if i == 126:
+                lines126 = lines
+        assert lines == lines126
+        assert 1000000000 % 34 == 126 % 34
+        return load
 
 
 if __name__ == "__main__":
-    main()
+    print('part a:', main_a())
+    print('part b:', main())
