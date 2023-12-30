@@ -1,39 +1,8 @@
-import re
-
-
-def convert(c) -> int:
-    if c == '2':
-        return 2
-    elif c == '3':
-        return 3
-    elif c == '4':
-        return 4
-    elif c == '5':
-        return 5
-    elif c == '6':
-        return 6
-    elif c == '7':
-        return 7
-    elif c == '8':
-        return 8
-    elif c == '9':
-        return 9
-    elif c == 'T':
-        return 10
-    elif c == 'J':
-        return 1
-    elif c == 'Q':
-        return 12
-    elif c == 'K':
-        return 13
-    elif c == 'A':
-        return 14
-
 
 class Card:
-    def __init__(self, inp: str):
+    def __init__(self, inp: str, converter: {}):
         self.inp = inp
-        converted = [convert(x) for x in inp]
+        converted = [converter[x] for x in inp]
         self.converted = converted
         tuples = [(y, converted.count(y)) for y in converted]
         njs = converted.count(1)
@@ -44,12 +13,10 @@ class Card:
             i = 0
             while self.data[i][0] == 1:
                 i += 1
-            maxx = self.data[i][0]
-            tmp = [(maxx if x == 1 else x) for x in self.converted]
+            max_data = self.data[i][0]
+            tmp = [(max_data if x == 1 else x) for x in self.converted]
             tuples = [(y, tmp.count(y)) for y in tmp]
             self.data = sorted(tuples, key=lambda a: a[1] * 100 + a[0], reverse=True)
-
-        # print(self.data)
 
     def __lt__(self, other):
         a = self.data
@@ -64,51 +31,32 @@ class Card:
                 return True
             if self.converted[i] > other.converted[i]:
                 return False
-
-        # for i in range(5):
-        #     if a[i][0] < b[i][0]:
-        #         return True
-        #     if a[i][0] > b[i][0]:
-        #         return False
         return False
 
 
-def main():
+def main(converter: dict):
     with open('input.txt') as inputtxt:
         lines = inputtxt.readlines()
 
-        sum_a = 0
-        sum_b = 0
-
         cards = {}
 
-        num_lines = len(lines)
         for i, line in enumerate(lines):
             num = int(line[6:])
-            cards[Card(line[:5])] = num
-            print(num)
-
-        # xcv = list(cards.keys())[0:5]
-        # print(xcv[0] < xcv[1])
-
+            cards[Card(line[:5], converter)] = num
 
         mykeys = list(cards.keys())
         mykeys.sort()
         for i, key in enumerate(mykeys):
             if i != 0:
-                assert prevkey < key
-            prevkey = key
-        sorted_dict = {i: cards[i] for i in mykeys}
+                assert prev_key < key
+            prev_key = key
         sum_a = sum([(i + 1) * cards[key] for i, key in enumerate(mykeys)])
-
-        for i, key in enumerate(mykeys):
-            print(key.data)
-        print(sum_a)
-        print(sum_b)
+        return sum_a
 
 
 if __name__ == "__main__":
-    main()
-
-#253702560
-#253638586
+    card_ids = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13,
+                'A': 14}
+    print('part a:', main(card_ids))
+    card_ids['J'] = 1
+    print('part b:', main(card_ids))
