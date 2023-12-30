@@ -4,16 +4,7 @@ def decode(line: str) -> int:
     res = 0
     for i in range(len_str):
         ch = line[len_str - 1 - i]
-        if ch == '0':
-            pass
-        elif ch == '1':
-            res += fp
-        elif ch == '2':
-            res += 2 * fp
-        elif ch == '=':
-            res -= 2 * fp
-        elif ch == '-':
-            res -= fp
+        res += fp * {'0': 0, '1': 1, '2': 2, '=': -2, '-': -1}[ch]
         fp *= 5
     return res
 
@@ -22,19 +13,7 @@ def encode(sum_a: int) -> str:
     if sum_a == 0:
         return ''
     mod5 = sum_a % 5
-    if mod5 == 0:
-        ch = '0'
-    elif mod5 == 1:
-        ch = '1'
-    elif mod5 == 2:
-        ch = '2'
-    elif mod5 == 3:
-        ch = '='
-    elif mod5 == 4:
-        ch = '-'
-    else:
-        raise ValueError
-    return encode(int((sum_a + 2) / 5)) + ch
+    return encode(int((sum_a + 2) / 5)) + {0: '0', 1: '1', 2: '2', 3: '=', 4: '-'}[mod5]
 
 
 def main():
