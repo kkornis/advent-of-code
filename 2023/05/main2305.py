@@ -56,17 +56,20 @@ def proc_new(lines, start, end) -> Mapping:
     return Mapping(sections)
 
 
-def main():
+def main(part_a):
     with open('input.txt') as inputtxt:
         lines = inputtxt.readlines()
 
-        seeds = [int(x) for x in lines[0][7:].split()]
-        seeds_new = []
-        for i in range(int(len(seeds) / 2)):
-            seed_start = seeds[2 * i]
-            seed_length = seeds[2 * i + 1]
-            seeds_new.append(Range(seed_start, seed_length))
-        seeds = seeds_new
+        seeds_int = [int(x) for x in lines[0][7:].split()]
+        if part_a:
+            seeds = [Range(seed, 1) for seed in seeds_int]
+        else:
+            seeds_new = []
+            for i in range(int(len(seeds_int) / 2)):
+                seed_start = seeds_int[2 * i]
+                seed_length = seeds_int[2 * i + 1]
+                seeds_new.append(Range(seed_start, seed_length))
+            seeds = seeds_new
 
         seed_to_soil = proc_new(lines, 3, 32)
         soil_to_fert = proc_new(lines, 34, 53)
@@ -83,8 +86,9 @@ def main():
         seeds5 = light_to_temp.apply_l_ranges(seeds4)
         seeds6 = temp_to_hum.apply_l_ranges(seeds5)
         seeds7 = hum_to_loc.apply_l_ranges(seeds6)
-        print(min([rang.start for rang in seeds7]))
+        return min([rang.start for rang in seeds7])
 
 
 if __name__ == "__main__":
-    main()
+    print('part a:', main(True))
+    print('part b:', main(False))

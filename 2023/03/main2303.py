@@ -59,8 +59,8 @@ def main():
             if len(gear_l) == 2:
                 sum_b += gear_l[0] * gear_l[1]
 
-        print(sum_a)
-        print(sum_b)
+        print('part a:', sum_a)
+        print('part b:', sum_b)
 
 
 if __name__ == "__main__":
