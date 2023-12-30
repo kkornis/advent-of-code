@@ -57,12 +57,13 @@ def step(states: list[tuple[str, tuple[int, int, int, int, int, int, int, int]]]
     return new_states
 
 
-def main():
+def main(part_a: bool):
     with open('input.txt') as inputtxt:
 
         lines = inputtxt.readlines()
         is_workflow_part = True
         workflows = {}
+        pieces = []
 
         for line in lines:
             if line == '\n':
@@ -72,21 +73,27 @@ def main():
                 conditions_str = remaining[:-2].split(',')
                 workflows[wf_name] = (conditions_str[:-1], conditions_str[-1])
             else:
-                pass
+                pieces.append([int(x[2:]) for x in line[1:-2].split(',')])
 
-        states = [('in', (1, 4001, 1, 4001, 1, 4001, 1, 4001))]
+        if part_a:
+            states = [('in', (x, x + 1, m, m + 1, a, a + 1, s, s + 1)) for x, m, a, s in pieces]
+        else:
+            states = [('in', (1, 4001, 1, 4001, 1, 4001, 1, 4001))]
         while not all([(x[0] == 'A' or x[0] == 'R') for x in states]):
             states = step(states, workflows)
 
-        sum_b = 0
+        sum_a = 0
         for state in states:
             if state[0] == 'A':
                 box = state[1]
-                sum_b += (box[1] - box[0]) * (box[3] - box[2]) * (box[5] - box[4]) * (box[7] - box[6])
+                if part_a:
+                    sum_a += box[0] + box[2] + box[4] + box[6]
+                else:
+                    sum_a += (box[1] - box[0]) * (box[3] - box[2]) * (box[5] - box[4]) * (box[7] - box[6])
 
-        print(sum_b)
+        return sum_a
 
 
 if __name__ == "__main__":
-    main()
-
+    print('part a:', main(True))
+    print('part b:', main(False))
