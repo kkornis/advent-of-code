@@ -54,8 +54,6 @@ class Graph:
 
     def reached_from_direction_and_shorter(self, param: tuple[int, int], direction: str, lengths, old_step_length):
         x, y = param
-        if x < 0 or x >= self.height or y < 0 or y >= self.width:
-            return True
         if self.lines[x][y] != direction:
             return True
         if param not in lengths:
@@ -65,7 +63,7 @@ class Graph:
     def reached_from_all_directions_and_argmax(self, param: tuple[int, int], lengths: dict[tuple[int, int], int],
                                                old_step_length: int) -> bool:
         for position, char in zip(self.get_neighbours(param), ['^', 'v', '<', '>']):
-            if not self.reached_from_direction_and_shorter(position, char, lengths, old_step_length):
+            if self.isvalid(param) and not self.reached_from_direction_and_shorter(position, char, lengths, old_step_length):
                 return False
         return True
 
