@@ -21,17 +21,17 @@ def main():
                 green = 0
                 blue = 0
                 for ssg in sets.split(','):
-                    ssgstrip = ssg.strip()
-                    if ssgstrip.endswith('blue'):
-                        match = re.fullmatch('(\d+) blue', ssgstrip)
+                    ssg_strip = ssg.strip()
+                    if ssg_strip.endswith('blue'):
+                        match = re.fullmatch('(\\d+) blue', ssg_strip)
                         assert match is not None
                         blue = int(match.group(1))
-                    elif ssgstrip.endswith('green'):
-                        match = re.fullmatch('(\d+) green', ssgstrip)
+                    elif ssg_strip.endswith('green'):
+                        match = re.fullmatch('(\\d+) green', ssg_strip)
                         assert match is not None
                         green = int(match.group(1))
-                    elif ssgstrip.endswith('red'):
-                        match = re.fullmatch('(\d+) red', ssgstrip)
+                    elif ssg_strip.endswith('red'):
+                        match = re.fullmatch('(\\d+) red', ssg_strip)
                         assert match is not None
                         red = int(match.group(1))
                 red_ss = max(red_ss, red)
@@ -40,8 +40,8 @@ def main():
             if red_ss <= 12 and green_ss <= 13 and blue_ss <= 14:
                 sum_games += i + 1
             sum_multiples += red_ss * green_ss * blue_ss
-        print(sum_games)
-        print(sum_multiples)
+        print('part a:', sum_games)
+        print('part b:', sum_multiples)
 
 
 if __name__ == "__main__":
