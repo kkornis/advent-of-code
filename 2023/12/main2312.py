@@ -1,10 +1,8 @@
 def main(part_b):
     with open('input.txt') as inputtxt:
-
-        lines = inputtxt.readlines()
         sum_a = 0
 
-        for l_num, line in enumerate(lines):
+        for line in inputtxt.readlines():
             code, numbers_part = line[:-1].split()
             groups = [int(x) for x in numbers_part.split(',')]
             if part_b:
@@ -18,7 +16,7 @@ def main(part_b):
             for i, group in enumerate(groups):
                 solution_table.append([0])
                 for j in range(len(code)):
-                    must_ends_with = code[j] == '#'
+                    must_end_with = code[j] == '#'
 
                     fit_end = j + 1 >= group
                     fit_end = fit_end and ('.' not in code[j + 1 - group:j + 1])
@@ -29,7 +27,7 @@ def main(part_b):
                     if fit_end:
                         l_ind = max(0, j + 1 - group - 1)
                         local_res += solution_table[i][l_ind]
-                    if not must_ends_with:
+                    if not must_end_with:
                         local_res += solution_table[i + 1][j]
 
                     solution_table[i + 1].append(local_res)
