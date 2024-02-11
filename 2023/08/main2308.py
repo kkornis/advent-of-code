@@ -4,8 +4,7 @@ def gcd(a, b):
         return gcd(b, a)
     if b == 0:
         return a
-    else:
-        return gcd(b, a - int(a / b) * b)
+    return gcd(b, a - int(a / b) * b)
 
 
 def main(part_b: bool):
@@ -21,7 +20,7 @@ def main(part_b: bool):
 
         start_list = ['AAA']
         if part_b:
-            start_list = [x for x in mmap.keys() if x.endswith('A')]
+            start_list = [x for x in mmap if x.endswith('A')]
 
         periods = {}
 

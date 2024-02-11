@@ -1,0 +1,9 @@
+[SETTINGS]
+
+max-line-length=120
+
+disable =
+    missing-docstring,
+    no-member,
+    unsubscriptable-object,
+    invalid-name, #  as these are small files, mathematical expressions, time pressure, we except this

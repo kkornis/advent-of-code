@@ -15,26 +15,23 @@ letter_map = {'x': 0, 'm': 2, 'a': 4, 's': 6}
 def apply_cond(box: tuple[int, int, int, int, int, int, int, int], unequality: str):
     if box is None:
         return None, None
+    ind = letter_map[unequality[0]]
+    direction = unequality[1]
+    number = int(unequality[2:])
+    if direction == '<':
+        if number <= box[ind]:
+            return box, None
+        elif number <= box[ind + 1]:
+            return create_tuple(box, ind, number, box[ind + 1]), create_tuple(box, ind, box[ind], number)
+        return None, box
+    elif direction == '>':
+        if number >= box[ind + 1]:
+            return box, None
+        elif number >= box[ind]:
+            return create_tuple(box, ind, box[ind], number + 1), create_tuple(box, ind, number + 1, box[ind + 1])
+        return None, box
     else:
-        ind = letter_map[unequality[0]]
-        direction = unequality[1]
-        number = int(unequality[2:])
-        if direction == '<':
-            if number <= box[ind]:
-                return box, None
-            elif number <= box[ind + 1]:
-                return create_tuple(box, ind, number, box[ind + 1]), create_tuple(box, ind, box[ind], number)
-            else:
-                return None, box
-        elif direction == '>':
-            if number >= box[ind + 1]:
-                return box, None
-            elif number >= box[ind]:
-                return create_tuple(box, ind, box[ind], number + 1), create_tuple(box, ind, number + 1, box[ind + 1])
-            else:
-                return None, box
-        else:
-            raise ValueError
+        raise ValueError
 
 
 def step(states: list[tuple[str, tuple[int, int, int, int, int, int, int, int]]],

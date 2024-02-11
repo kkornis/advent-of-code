@@ -1,4 +1,3 @@
-
 def main():
     with open('input.txt') as inputtxt:
 

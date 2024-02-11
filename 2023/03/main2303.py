@@ -13,8 +13,7 @@ def main():
         len_line = len(lines[0]) - 1
         num_lines = len(lines)
         for i, line in enumerate(lines):
-            iterable = re.finditer('\\d+', line)
-            for match in iterable:
+            for match in re.finditer('\\d+', line):
                 st = match.start(0)
                 en = match.end(0)
                 is_adjacent = False

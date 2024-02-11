@@ -1,4 +1,3 @@
-
 def main(extra_space):
     with open('input.txt') as inputtxt:
 

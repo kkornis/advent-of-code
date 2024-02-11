@@ -32,11 +32,10 @@ class Mapping:
             elif my_range.start <= x_range.start < my_range.start + my_range.length:
                 if x_range.start + x_range.length <= my_range.start + my_range.length:
                     return [Range(x_range.start + shift, x_range.length)]
-                else:
-                    first_l_r = self.apply_range(Range(x_range.start, my_range.start + my_range.length - x_range.start))
-                    second_l_r = self.apply_range(Range(my_range.start + my_range.length,
-                                                  x_range.start + x_range.length - my_range.start - my_range.length))
-                    return first_l_r + second_l_r
+                first_l_r = self.apply_range(Range(x_range.start, my_range.start + my_range.length - x_range.start))
+                second_l_r = self.apply_range(Range(my_range.start + my_range.length,
+                                                    x_range.start + x_range.length - my_range.start - my_range.length))
+                return first_l_r + second_l_r
             else:
                 raise ValueError
         return [x_range]

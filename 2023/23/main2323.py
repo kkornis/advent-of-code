@@ -63,7 +63,8 @@ class Graph:
     def reached_from_all_directions_and_argmax(self, param: tuple[int, int], lengths: dict[tuple[int, int], int],
                                                old_step_length: int) -> bool:
         for position, char in zip(self.get_neighbours(param), ['^', 'v', '<', '>']):
-            if self.isvalid(param) and not self.reached_from_direction_and_shorter(position, char, lengths, old_step_length):
+            if self.isvalid(param) and not self.reached_from_direction_and_shorter(position, char, lengths,
+                                                                                   old_step_length):
                 return False
         return True
 
@@ -101,7 +102,7 @@ class Graph:
 
     def get_vertex_not_eq(self, vertex1: tuple[int, int], vertex2: tuple[int, int]) -> tuple[int, int]:
         for key in self.vertexes.keys():
-            if key != vertex1 and key != vertex2:
+            if key not in (vertex1, vertex2):
                 if len(self.vertexes[key]) <= 2:
                     return key
         return None

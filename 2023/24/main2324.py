@@ -26,7 +26,7 @@ def check_eq(data, result):
 def solve_part_b(data, a, b, c):
     variable_names = ['x', 'y', 'z', 'vx', 'vy', 'vz']
     const = 'const'
-    df = pd.DataFrame({nam: [] for nam in (variable_names + [const])})
+    df = pd.DataFrame({nam: [] for nam in variable_names + [const]})
     add_two_rows(df, data[0], data[a])
     add_two_rows(df, data[0], data[b])
     add_two_rows(df, data[0], data[c])
@@ -52,22 +52,20 @@ def collide_in(line1, line2):
     if detv == 0:
         if a1 - a2 != 0:
             return False
+        if vel1[0] != 0:
+            ta1 = (pos2[0] - pos1[0]) / vel1[0]
         else:
-            if vel1[0] != 0:
-                ta1 = (pos2[0] - pos1[0]) / vel1[0]
-            else:
-                ta1 = (pos2[1] - pos2[1]) / vel1[1]
+            ta1 = (pos2[1] - pos2[1]) / vel1[1]
 
-            if vel2[0] != 0:
-                ta2 = (pos1[0] - pos2[0]) / vel2[0]
-            else:
-                ta2 = (pos1[1] - pos2[1]) / vel2[1]
+        if vel2[0] != 0:
+            ta2 = (pos1[0] - pos2[0]) / vel2[0]
+        else:
+            ta2 = (pos1[1] - pos2[1]) / vel2[1]
 
-            print(ta1, ta2)
-            if ta1 <= 0 and ta2 <= 0:
-                return False
-            else:
-                print('ERROR: ', line1, line2)
+        print(ta1, ta2)
+        if ta1 <= 0 and ta2 <= 0:
+            return False
+        print('ERROR: ', line1, line2)
 
     else:
         t2 = (a1 - a2) / detv
@@ -83,8 +81,7 @@ def collide_in(line1, line2):
             if 200000000000000 <= pos2[0] + t2 * vel2[0] <= 400000000000000 and \
                     200000000000000 <= pos2[1] + t2 * vel2[1] <= 400000000000000:
                 return True
-            else:
-                return False
+            return False
 
 
 def main():

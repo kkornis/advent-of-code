@@ -14,7 +14,7 @@ def find_special(line: str, is_backward: bool, digits: dict) -> str:
 
 def calculate_with_digits(lines, digits):
     sum_scores = 0
-    for i, line in enumerate(lines):
+    for line in lines:
         code = int(find_special(line, False, digits) + find_special(line, True, digits))
         sum_scores += code
     return sum_scores

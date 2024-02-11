@@ -2,55 +2,14 @@ def is_place(subject: tuple[int, int, int]) -> bool:
     return 0 <= subject[1] < 110 and 0 <= subject[2] < 110
 
 
+new_direction_dict = {'\\': {0: [2], 1: [3], 2: [0], 3: [1]}, '/': {0: [3], 1: [2], 2: [1], 3: [0]},
+           '-': {0: [0], 1: [1], 2: [0, 1], 3: [0, 1]}, '|': {0: [2, 3], 1: [2, 3], 2: [2], 3: [3]}}
+
+
 def determine_new_directions(direction: int, param: str) -> list[int]:
     if param == '.':
         return [direction]
-    elif param == '\\':
-        if direction == 0:
-            return [2]
-        elif direction == 1:
-            return [3]
-        elif direction == 2:
-            return [0]
-        elif direction == 3:
-            return [1]
-        else:
-            raise ValueError
-    elif param == '/':
-        if direction == 0:
-            return [3]
-        elif direction == 1:
-            return [2]
-        elif direction == 2:
-            return [1]
-        elif direction == 3:
-            return [0]
-        else:
-            raise ValueError
-    elif param == '-':
-        if direction == 0:
-            return [0]
-        elif direction == 1:
-            return [1]
-        elif direction == 2:
-            return [0, 1]
-        elif direction == 3:
-            return [0, 1]
-        else:
-            raise ValueError
-    elif param == '|':
-        if direction == 0:
-            return [2, 3]
-        elif direction == 1:
-            return [2, 3]
-        elif direction == 2:
-            return [2]
-        elif direction == 3:
-            return [3]
-        else:
-            raise ValueError
-    else:
-        raise ValueError
+    return new_direction_dict[param][direction]
 
 
 def apply_beam_raw(subject: tuple[int, int, int], param: str) -> list[tuple[int, int, int]]:
@@ -74,10 +33,6 @@ def apply_beam(subject: tuple[int, int, int], param: str) -> list[tuple[int, int
 
 def main():
     with open('input.txt') as inputtxt:
-
-        sum_a = 0
-        sum_b = 0
-
         lines = inputtxt.readlines()
         lines = [x[:-1] for x in lines]
         width = len(lines[0])
@@ -107,7 +62,6 @@ def second_part(first_subject: tuple[int, int, int], width, height, lines) -> in
     f = 0
     while end - start > 0:
         f += 1
-        # print(f, start, end)
         subject = unhandled[start]
         new_subjects = apply_beam(subject, lines[subject[1]][subject[2]])
         new_subjects = [x for x in new_subjects if x not in unhandled]

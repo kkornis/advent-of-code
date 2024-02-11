@@ -64,7 +64,7 @@ def roll_south(lines_o: list[list[str]], width: int, height: int) -> list[list[s
     return lines
 
 
-def roll_west(lines_o: list[list[str]], width: int, height: int) -> list[list[str]]:
+def roll_west(lines_o: list[list[str]], width: int) -> list[list[str]]:
     lines = copy.deepcopy(lines_o)
     for line in lines:
         num_rocks = 0
@@ -117,7 +117,7 @@ def test1():
         for k in range(height):
             print(''.join(lines[k]))
         print(''.join(['=']*200))
-        for i in range(100):
+        for _ in range(100):
             lines = roll_south(lines, width, height)
             for k in range(height):
                 print(''.join(lines[k]))
@@ -143,7 +143,7 @@ def test2():
         for k in range(height):
             print(''.join(lines[k]))
         print(''.join(['=']*200))
-        lines = roll_west(lines, width, height)
+        lines = roll_west(lines, width)
         for k in range(height):
             print(''.join(lines[k]))
         print(''.join(['=']*200))
@@ -152,11 +152,8 @@ def test2():
             print(''.join(lines[k]))
         print(''.join(['=']*200))
         lines1, load = roll_north(lines, width, height)
-        for i in range(100):
-            lines = roll_west(lines, width, height)
-            # for k in range(height):
-            #     print(''.join(lines[k]))
-            # print(''.join(['='] * 200))
+        for _ in range(100):
+            lines = roll_west(lines, width)
             lines, _ = roll_east(lines, width, height)
             for k in range(height):
                 print(''.join(lines[k]))
@@ -178,7 +175,7 @@ def main():
 
         for i in range(1, 161):
             lines, load = roll_north(lines, width, height)
-            lines = roll_west(lines, width, height)
+            lines = roll_west(lines, width)
             lines = roll_south(lines, width, height)
             lines, load = roll_east(lines, width, height)
             if i == 126:
