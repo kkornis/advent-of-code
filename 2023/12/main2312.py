@@ -25,7 +25,7 @@ def main(part_b):
 
                     local_res = 0
                     if fit_end:
-                        l_ind = max(0, j + 1 - group - 1)
+                        l_ind = max(0, j - group)
                         local_res += solution_table[i][l_ind]
                     if not must_end_with:
                         local_res += solution_table[i + 1][j]
