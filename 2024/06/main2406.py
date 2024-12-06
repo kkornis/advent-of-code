@@ -12,9 +12,8 @@ def main():
                     pos = (i, j, 0)
 
         _, visits = is_stuck(pos, lines)
-        visits_s = set()
-        for visit in visits:
-            visits_s.add((visit[0], visit[1]))
+
+        visits_s = {(visit[0], visit[1]) for visit in visits}
         print('part a: ', len(visits_s))
 
         sum_b = 0
@@ -37,9 +36,7 @@ def is_stuck(pos, lines):
 
     visits = {pos}
 
-    go = True
-    stuck = False
-    while go:
+    while True:
         if pos[2] == 0:
             next_cand = (pos[0] - 1, pos[1], pos[2])
         elif pos[2] == 1:
@@ -52,30 +49,25 @@ def is_stuck(pos, lines):
             raise Exception
 
         if not (0 <= next_cand[0] < height and 0 <= next_cand[1] < width):
-            go = False
+            return False, visits
 
-        if go:
-            if lines[next_cand[0]][next_cand[1]] == '#':
-                if pos[2] == 0:
-                    pos = (pos[0], pos[1], 1)
-                elif pos[2] == 1:
-                    pos = (pos[0], pos[1], 2)
-                elif pos[2] == 2:
-                    pos = (pos[0], pos[1], 3)
-                elif pos[2] == 3:
-                    pos = (pos[0], pos[1], 0)
-                else:
-                    raise Exception
+        if lines[next_cand[0]][next_cand[1]] == '#':
+            if pos[2] == 0:
+                pos = (pos[0], pos[1], 1)
+            elif pos[2] == 1:
+                pos = (pos[0], pos[1], 2)
+            elif pos[2] == 2:
+                pos = (pos[0], pos[1], 3)
+            elif pos[2] == 3:
+                pos = (pos[0], pos[1], 0)
             else:
-                pos = next_cand
+                raise Exception
+        else:
+            pos = next_cand
 
-            if pos in visits:
-                stuck = True
-                go = False
-            else:
-                visits.add(pos)
-
-    return stuck, visits
+        if pos in visits:
+            return True, visits
+        visits.add(pos)
 
 
 if __name__ == "__main__":
