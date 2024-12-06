@@ -2,9 +2,6 @@ def main():
     with open('input.txt') as inputtxt:
         lines = inputtxt.readlines()
 
-        height = len(lines)
-        width = len(lines[0]) - 1
-
         pos = None
         for i, line in enumerate(lines):
             for j, ch in enumerate(line):
@@ -17,15 +14,13 @@ def main():
         print('part a: ', len(visits_s))
 
         sum_b = 0
-        for i in range(height):
-            print('line ' + str(i))
-            for j in range(width):
-                if i == pos[0] and j == pos[1]:
-                    continue
-                alt_lines = lines.copy()
-                alt_lines[i] = lines[i][:j] + '#' + lines[i][j+1:]
-                stuck, _ = is_stuck(pos, alt_lines)
-                sum_b += int(stuck)
+        for i, j in visits_s:
+            if i == pos[0] and j == pos[1]:
+                continue
+            alt_lines = lines.copy()
+            alt_lines[i] = lines[i][:j] + '#' + lines[i][j+1:]
+            stuck, _ = is_stuck(pos, alt_lines)
+            sum_b += int(stuck)
 
         print('part b: ', sum_b)
 
