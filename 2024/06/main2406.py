@@ -30,17 +30,10 @@ def is_stuck(pos, lines):
 
     visits = {pos}
 
+    m1 = {0: -1, 1: 0, 2: 1, 3: 0}
+    m2 = {0: 0, 1: 1, 2: 0, 3: -1}
     while True:
-        if pos[2] == 0:
-            next_cand = (pos[0] - 1, pos[1], pos[2])
-        elif pos[2] == 1:
-            next_cand = (pos[0], pos[1] + 1, pos[2])
-        elif pos[2] == 2:
-            next_cand = (pos[0] + 1, pos[1], pos[2])
-        elif pos[2] == 3:
-            next_cand = (pos[0], pos[1] - 1, pos[2])
-        else:
-            raise Exception
+        next_cand = (pos[0] + m1[pos[2]], pos[1] + m2[pos[2]], pos[2])
 
         if not (0 <= next_cand[0] < height and 0 <= next_cand[1] < width):
             return False, visits
