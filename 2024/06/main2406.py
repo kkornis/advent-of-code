@@ -4,9 +4,8 @@ def main():
 
         pos = None
         for i, line in enumerate(lines):
-            for j, ch in enumerate(line):
-                if ch == '^':
-                    pos = (i, j, 0)
+            if '^' in line:
+                pos = (i, line.find('^'), 0)
 
         _, visits = is_stuck(pos, lines)
 
