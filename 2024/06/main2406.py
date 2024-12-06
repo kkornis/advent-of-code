@@ -20,12 +20,12 @@ def main():
         for i in range(height):
             print('line ' + str(i))
             for j in range(width):
-                if not (i == pos[0] and j == pos[1]):
-                    alt_lines = lines.copy()
-                    alt_lines[i] = lines[i][:j] + '#' + lines[i][j+1:]
-                    stuck, visits = is_stuck(pos, alt_lines)
-                    if stuck:
-                        sum_b += 1
+                if i == pos[0] and j == pos[1]:
+                    continue
+                alt_lines = lines.copy()
+                alt_lines[i] = lines[i][:j] + '#' + lines[i][j+1:]
+                stuck, _ = is_stuck(pos, alt_lines)
+                sum_b += int(stuck)
 
         print('part b: ', sum_b)
 
@@ -52,16 +52,8 @@ def is_stuck(pos, lines):
             return False, visits
 
         if lines[next_cand[0]][next_cand[1]] == '#':
-            if pos[2] == 0:
-                pos = (pos[0], pos[1], 1)
-            elif pos[2] == 1:
-                pos = (pos[0], pos[1], 2)
-            elif pos[2] == 2:
-                pos = (pos[0], pos[1], 3)
-            elif pos[2] == 3:
-                pos = (pos[0], pos[1], 0)
-            else:
-                raise Exception
+            new_dir = (pos[2] + 1) % 4
+            pos = (pos[0], pos[1], new_dir)
         else:
             pos = next_cand
 
