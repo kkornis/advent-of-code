@@ -13,7 +13,46 @@ def get_val(literal: int, A, B, C):
         raise Exception
 
 
-def main():
+def part_one(progr, A, B, C):
+        output = []
+
+        ip = 0
+        while ip < len(progr) - 1:
+            opcode = progr[ip]
+            literal = progr[ip + 1]
+            combo_operand = get_val(literal, A, B, C)
+            if opcode == 0:
+                res = A // (2 ** combo_operand)
+                A = res
+            elif opcode == 1:
+                B = B ^ literal
+            elif opcode == 2:
+                B = combo_operand % 8
+            elif opcode == 3:
+                if A != 0:
+                    ip = combo_operand - 2
+            elif opcode == 4:
+                B = B ^ C
+            elif opcode == 5:
+                output.append(combo_operand % 8)
+            elif opcode == 6:
+                B = A // (2 ** combo_operand)
+            elif opcode == 7:
+                C = A // (2 ** combo_operand)
+            else:
+                raise Exception
+            ip += 2
+        print("Part One: ", ','.join([str(x) for x in output]))
+
+
+def part_two(progr):
+    A = [0]
+    for outp in reversed(progr):
+        A = [B + 8 * a for B in range(8) for a in A if 3 ^ B ^ (B + 8 * a) // 2 ** (B ^ 5) % 8 == outp]
+    print("Part Two: ", min(A))
+
+
+if __name__ == "__main__":
     with open("input.txt") as inputtxt:
         lines = inputtxt.readlines()
         A = int(lines[0][12:])
@@ -21,58 +60,7 @@ def main():
         C = int(lines[2][12:])
 
         program_str = lines[4][9:]
-        program = program_str.split(',')
-        output = []
+        program = [int(x) for x in program_str.split(',')]
 
-        ip = 0
-        while ip < len(program) - 1:
-            opcode = int(program[ip])
-            literal = int(program[ip + 1])
-            if opcode == 0:
-                val = get_val(literal, A, B, C)
-                res = A // (2 ** val)
-                A = res
-            elif opcode == 1:
-                res = B ^ literal
-                B = res
-            elif opcode == 2:
-                val = get_val(literal, A, B, C)
-                res = val % 8
-                B = res
-            elif opcode == 3:
-                if A != 0:
-                    res = get_val(literal, A, B, C)
-                    ip = res - 2
-            elif opcode == 4:
-                res = B ^ C
-                B = res
-            elif opcode == 5:
-                val = get_val(literal, A, B, C)
-                res = val % 8
-                output.append(res)
-            elif opcode == 6:
-                val = get_val(literal, A, B, C)
-                res = A // (2 ** val)
-                B = res
-            elif opcode == 7:
-                val = get_val(literal, A, B, C)
-                res = A // (2 ** val)
-                C = res
-            else:
-                raise Exception
-            ip += 2
-        print("Part One: ", ','.join([str(x) for x in output]))
-
-
-def part_two():
-    input_str = "2,4,1,5,7,5,1,6,4,3,5,5,0,3,3,0"
-    program = [int(x) for x in input_str.split(',')]
-    A = [0]
-    for outp in reversed(program):
-        A = [B + 8 * a for B in range(8) for a in A if 3 ^ B ^ (B + 8 * a) // 2 ** (B ^ 5) % 8 == outp]
-    print("Part Two: ", min(A))
-
-
-if __name__ == "__main__":
-    main()
-    part_two()
+        part_one(program, A, B, C)
+        part_two(program)
