@@ -69,7 +69,7 @@ def part_two():
     program = [int(x) for x in input_str.split(',')]
     A = [0]
     for outp in reversed(program):
-        A = [B + 8 * a for B in range(8) for a in A if 3 ^ B ^ (((B + 8 * a) // (2 ** (B ^ 5))) % 8) == outp]
+        A = [B + 8 * a for B in range(8) for a in A if 3 ^ B ^ (B + 8 * a) // 2 ** (B ^ 5) % 8 == outp]
     print("Part Two: ", min(A))
 
 
