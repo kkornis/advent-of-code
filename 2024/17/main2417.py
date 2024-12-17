@@ -52,7 +52,7 @@ def part_two(progr):
     print("Part Two: ", min(A))
 
 
-if __name__ == "__main__":
+def main():
     with open("input.txt") as inputtxt:
         lines = inputtxt.readlines()
         A = int(lines[0][12:])
@@ -64,3 +64,7 @@ if __name__ == "__main__":
 
         part_one(program, A, B, C)
         part_two(program)
+
+
+if __name__ == "__main__":
+    main()
