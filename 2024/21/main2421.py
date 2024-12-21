@@ -106,15 +106,6 @@ def resolve_directional_keypad(code):
     return res
 
 
-def resolve_directional_keypad_iterative(state):
-    res = Counter()
-    for world, num in state.items():
-        res_loc = resolve_directional_keypad(world)
-        for key, val in res_loc.items():
-            res[key] += val * num
-    return res
-
-
 def solve(n_mach):
     with open("input.txt") as inputtxt:
         lines = inputtxt.readlines()
@@ -124,16 +115,15 @@ def solve(n_mach):
             line = line_dirty.strip()
             state = resolve_numeric_keypad(line)
             for k in range(n_mach):
-                state = resolve_directional_keypad_iterative(state)
+                state_new = Counter()
+                for world, num in state.items():
+                    state_new += Counter({key: val * num for key, val in resolve_directional_keypad(world).items()})
+                state = state_new
 
             sum_a += sum([len(x) * y for x, y in state.items()]) * int(line[:-1])
         return sum_a
 
 
-def main():
+if __name__ == "__main__":
     print('Part One: ', solve(2))
     print('Part Two: ', solve(25))
-
-
-if __name__ == "__main__":
-    main()
