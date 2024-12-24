@@ -1,3 +1,15 @@
+def construct(mem, char):
+    i = 0
+    key = char + str(i).zfill(2)
+    res_int = 0
+    while key in mem:
+        if mem[key]:
+            res_int += 2 ** i
+        i += 1
+        key = char + str(i).zfill(2)
+    return res_int
+
+
 def main():
     with open("input.txt") as inputtxt:
         lines = inputtxt.readlines()
@@ -27,15 +39,13 @@ def main():
                 else:
                     raise Exception
 
-        res = 0
-        for i in range(10):
-            if mem['z0' + str(i)]:
-                res += 2 ** i
-        for i in range(10, 46):
-            if mem['z' + str(i)]:
-                res += 2 ** i
+        z_res = construct(mem, 'z')
+        print('Part One: ', z_res)
 
-        print('Part One: ', res)
+        x_res = construct(mem, 'x')
+        y_res = construct(mem, 'y')
+
+        print(abs(x_res + y_res - z_res))
 
 
 if __name__ == "__main__":
