@@ -31,7 +31,16 @@ def main():
             for j in range(width):
                 if inp[i][j] == '@' and calc_p_a(i, j, inp, width, height) < 4:
                     sum_a += 1
-                    print(i, j, calc_p_a(i, j, inp, width, height))
+
+        new_ones = 1
+        while new_ones > 0:
+            new_ones = 0
+            for i in range(height):
+                for j in range(width):
+                    if inp[i][j] == '@' and calc_p_a(i, j, inp, width, height) < 4:
+                        sum_b += 1
+                        new_ones += 1
+                        inp[i] = inp[i][:j] + "." + inp[i][j + 1:]
 
         print('Part One: ', sum_a)
         print('Part One: ', sum_b)
