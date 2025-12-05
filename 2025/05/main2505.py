@@ -16,7 +16,7 @@ def main():
                 i += 1
 
         print('Part One: ', sum([any([range_[0] <= id_ <= range_[1] for range_ in ranges]) for id_ in ids]))
-        print('Part Two: ', sum([ord[1] - ord[0] + 1 for ord in ordered]))
+        print('Part Two: ', sum([ord_[1] - ord_[0] + 1 for ord_ in ordered]))
 
 
 if __name__ == "__main__":
