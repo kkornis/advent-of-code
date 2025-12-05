@@ -29,7 +29,7 @@ def main():
             sum_b += calc_b(line[:-1], 12)
 
         print('Part One: ', sum_a)
-        print('Part One: ', sum_b)
+        print('Part Two: ', sum_b)
 
 
 if __name__ == "__main__":

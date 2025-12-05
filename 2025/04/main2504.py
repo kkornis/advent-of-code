@@ -43,7 +43,7 @@ def main():
                         inp[i] = inp[i][:j] + "." + inp[i][j + 1:]
 
         print('Part One: ', sum_a)
-        print('Part One: ', sum_b)
+        print('Part Two: ', sum_b)
 
 
 if __name__ == "__main__":
