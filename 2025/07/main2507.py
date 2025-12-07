@@ -7,13 +7,15 @@ def main():
         sum_a = 0
         state = {lines[0].index('S'): 1}
 
-        for i in range(1, len(lines)):
+        for line in lines:
             new_states = Counter()
+            if 'S' in line:
+                new_states[line.index('S')] += 1
             for beam in state:
-                if lines[i][beam] == '.':
+                if line[beam] == '.':
                     new_states[beam] += state[beam]
                 else:
-                    assert lines[i][beam] == '^'
+                    assert line[beam] in '^S'
                     sum_a += 1
                     if beam - 1 >= 0:
                         new_states[beam - 1] += state[beam]
